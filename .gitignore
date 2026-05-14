@@ -1,0 +1,22 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+
+# Mac / OS
+.DS_Store
+
+# Build outputs (pro jistotu na úrovni rootu)
+dist
+dist-ssr
+.next/
+out/
