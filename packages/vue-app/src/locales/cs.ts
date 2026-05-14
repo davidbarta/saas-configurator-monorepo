@@ -13,7 +13,35 @@ export default {
   },
   configurator: {
     title: 'SaaS Konfigurátor',
-    description: 'Tady postavíme Drag & Drop skládání modulů.',
-    currentPrice: 'Aktuální cena: {price} USD'
+    description: 'Sestav si plán na míru. Začni výběrem základu a přidej moduly.',
+    currentPrice: 'Celková cena: {price} USD',
+    tabs: {
+      tariffs: '1. Výběr tarifu',
+      modules: '2. Doplňkové moduly'
+    }
+  },
+  selector: {
+    title: 'Zvol si výchozí tarif',
+    selectBtn: 'Zvolit tarif',
+    selectedBadge: 'Aktivní'
+  },
+  tariffs: {
+    starter: {
+      name: 'Starter',
+      desc: 'Ideální pro začínající projekty a jednotlivce.'
+    },
+    professional: {
+      name: 'Professional',
+      desc: 'Pro rostoucí týmy vyžadující pokročilé funkce a vyšší limity.'
+    },
+    enterprise: {
+      name: 'Enterprise',
+      desc: 'Maximální výkon, dedikovaná podpora a neomezené zdroje.'
+    }
+  },
+  modules: {
+    db: 'Extra databáze (+10GB)',
+    analytics: 'Pokročilá analytika',
+    sla: 'SLA Podpora 24/7'
   }
 };
