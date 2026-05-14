@@ -43,5 +43,15 @@ export default {
     db: 'Extra databáze (+10GB)',
     analytics: 'Pokročilá analytika',
     sla: 'SLA Podpora 24/7'
+  },
+  addons: {
+    available: 'Dostupné moduly',
+    selected: 'Aktivní moduly (přetáhni sem)',
+    empty: 'Zatím jsi nepřetáhl žádný modul.',
+    category: {
+      resource: 'Zdroj',
+      feature: 'Funkce',
+      support: 'Podpora'
+    }
   }
 };

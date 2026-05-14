@@ -2,6 +2,7 @@
 import { onMounted } from 'vue';
 import { useConfiguratorStore } from '@/stores/configurator';
 import TariffSelector from '@/components/TariffSelector.vue';
+import AddonSelector from '@/components/AddonSelector.vue';
 
 const store = useConfiguratorStore();
 
@@ -33,11 +34,7 @@ onMounted(() => {
         <h2 class="text-lg font-semibold text-slate-800 mb-4">
           {{ $t('configurator.tabs.modules') }}
         </h2>
-        <div
-          class="p-8 border-2 border-dashed border-slate-200 rounded-xl text-center text-slate-400"
-        >
-          [Místo pro Drag & Drop seznam modulů]
-        </div>
+        <AddonSelector />
       </section>
     </div>
   </div>

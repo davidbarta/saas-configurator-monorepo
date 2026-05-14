@@ -48,6 +48,7 @@ export const useConfiguratorStore = defineStore('configurator', () => {
 
   function fetchInitialData() {
     isLoading.value = true;
+    selectedModules.value = [];
     try {
       availableTariffs.value = [
         {
@@ -84,6 +85,10 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     }
   }
 
+  function updateAvailableModules(newModules: AddonModule[]) {
+    availableModules.value = newModules;
+  }
+
   return {
     selectedTariff,
     selectedModules,
@@ -95,6 +100,7 @@ export const useConfiguratorStore = defineStore('configurator', () => {
     addModule,
     removeModule,
     updateModuleOrder,
-    fetchInitialData
+    fetchInitialData,
+    updateAvailableModules
   };
 });

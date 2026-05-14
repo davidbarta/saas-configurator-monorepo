@@ -43,5 +43,15 @@ export default {
     db: 'Extra Database (+10GB)',
     analytics: 'Advanced Analytics',
     sla: '24/7 SLA Support'
+  },
+  addons: {
+    available: 'Available Modules',
+    selected: 'Active Modules (drag here)',
+    empty: 'No modules dragged here yet.',
+    category: {
+      resource: 'Resource',
+      feature: 'Feature',
+      support: 'Support'
+    }
   }
 };
