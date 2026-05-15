@@ -1,8 +1,4 @@
-<script setup lang="ts">
-import { useConfiguratorStore } from '@/stores/configurator';
-
-const store = useConfiguratorStore();
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="space-y-6">
