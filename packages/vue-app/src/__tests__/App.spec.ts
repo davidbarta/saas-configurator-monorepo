@@ -1,14 +1,15 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { mount, VueWrapper } from '@vue/test-utils';
+import { mount, VueWrapper, flushPromises } from '@vue/test-utils';
 import { createPinia, setActivePinia, type Pinia } from 'pinia';
 import App from '../App.vue';
 import router from '../router';
 import i18n from '../i18n';
+import { useAuthStore } from '../stores/auth';
 
-function createWrapper(): VueWrapper {
+function createWrapper(pinia: Pinia = createPinia()): VueWrapper {
   return mount(App, {
     global: {
-      plugins: [createPinia(), router, i18n]
+      plugins: [pinia, router, i18n]
     }
   });
 }
@@ -45,5 +46,49 @@ describe('App.vue', () => {
 
     const mainArea = wrapper.find('main');
     expect(mainArea.exists()).toBe(true);
+  });
+
+  it('does not render a greeting or logout button when unauthenticated', async () => {
+    router.push('/configurator');
+    await router.isReady();
+
+    const wrapper = createWrapper();
+
+    expect(wrapper.text()).not.toContain('Ahoj');
+    expect(wrapper.find('aside').find('button').exists()).toBe(false);
+  });
+
+  it('renders greeting with user name and logout button when authenticated', async () => {
+    const pinia = createPinia();
+    setActivePinia(pinia);
+    const authStore = useAuthStore();
+    authStore.user = { id: 'u_123', name: 'David', email: 'david@example.com' };
+
+    router.push('/configurator');
+    await router.isReady();
+
+    const wrapper = createWrapper(pinia);
+
+    expect(wrapper.text()).toContain('Ahoj, David');
+    const logoutBtn = wrapper.find('button');
+    expect(logoutBtn.exists()).toBe(true);
+    expect(logoutBtn.text()).toContain('Odhlásit se');
+  });
+
+  it('calls logout and navigates to login when the logout button is clicked', async () => {
+    const pinia = createPinia();
+    setActivePinia(pinia);
+    const authStore = useAuthStore();
+    authStore.user = { id: 'u_123', name: 'David', email: 'david@example.com' };
+
+    router.push('/configurator');
+    await router.isReady();
+
+    const wrapper = createWrapper(pinia);
+    await wrapper.find('button').trigger('click');
+    await flushPromises();
+
+    expect(authStore.user).toBeNull();
+    expect(router.currentRoute.value.name).toBe('login');
   });
 });

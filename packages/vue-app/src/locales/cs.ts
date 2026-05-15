@@ -53,5 +53,14 @@ export default {
       feature: 'Funkce',
       support: 'Podpora'
     }
+  },
+  auth: {
+    title: 'Přihlášení',
+    email: 'E-mail',
+    password: 'Heslo',
+    submit: 'Vstoupit do aplikace',
+    logout: 'Odhlásit se',
+    error: 'Neplatné přihlašovací údaje (zkus test / test).',
+    greeting: 'Ahoj, {name}'
   }
 };

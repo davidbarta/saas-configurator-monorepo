@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, RouterView, useRouter } from 'vue-router';
+import { useAuthStore } from './stores/auth';
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+function handleLogout() {
+  authStore.logout();
+  router.push({ name: 'login' });
+}
 </script>
 
 <template>
@@ -26,6 +35,18 @@ import { RouterLink, RouterView } from 'vue-router';
           {{ $t('nav.configurator') }}
         </RouterLink>
       </nav>
+
+      <div v-if="authStore.isAuthenticated" class="pt-6 border-t border-slate-800">
+        <div class="text-sm font-medium text-slate-300 mb-4">
+          {{ $t('auth.greeting', { name: authStore.user?.name }) }}
+        </div>
+        <button
+          @click="handleLogout"
+          class="w-full text-left px-3 py-2 text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-2 cursor-pointer"
+        >
+          <span class="text-lg">🚪</span> {{ $t('auth.logout') }}
+        </button>
+      </div>
     </aside>
 
     <main class="flex-1 p-8 overflow-y-auto">

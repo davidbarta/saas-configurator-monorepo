@@ -53,5 +53,14 @@ export default {
       feature: 'Feature',
       support: 'Support'
     }
+  },
+  auth: {
+    title: 'Sign In',
+    email: 'Email',
+    password: 'Password',
+    submit: 'Enter App',
+    logout: 'Sign Out',
+    error: 'Invalid credentials (try test / test).',
+    greeting: 'Hello, {name}'
   }
 };
