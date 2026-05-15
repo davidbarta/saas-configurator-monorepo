@@ -62,5 +62,19 @@ export default {
     logout: 'Odhlásit se',
     error: 'Neplatné přihlašovací údaje (zkus test / test).',
     greeting: 'Ahoj, {name}'
+  },
+  checkout: {
+    title: 'Dokončení objednávky',
+    name: 'Jméno a příjmení',
+    email: 'Pracovní e-mail',
+    company: 'Název firmy (volitelné)',
+    terms: 'Souhlasím s obchodními podmínkami',
+    submit: 'Odeslat objednávku',
+    success: 'Objednávka byla úspěšně odeslána. Mrkni do konzole!',
+    errors: {
+      required: 'Toto pole je povinné',
+      email: 'Zadejte platný e-mail',
+      terms: 'Musíte souhlasit s podmínkami'
+    }
   }
 };

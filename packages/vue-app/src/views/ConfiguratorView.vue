@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { useConfiguratorStore } from '@/stores/configurator';
 import TariffSelector from '@/components/TariffSelector.vue';
 import AddonSelector from '@/components/AddonSelector.vue';
+import CheckoutForm from '@/components/CheckoutForm.vue';
 
 const store = useConfiguratorStore();
 
@@ -35,6 +36,10 @@ onMounted(() => {
           {{ $t('configurator.tabs.modules') }}
         </h2>
         <AddonSelector />
+      </section>
+
+      <section class="pt-4 border-t border-slate-100 mt-8">
+        <CheckoutForm />
       </section>
     </div>
   </div>

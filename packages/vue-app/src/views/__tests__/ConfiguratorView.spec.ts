@@ -4,6 +4,7 @@ import { createPinia, setActivePinia, type Pinia } from 'pinia';
 import ConfiguratorView from '../ConfiguratorView.vue';
 import TariffSelector from '../../components/TariffSelector.vue';
 import AddonSelector from '../../components/AddonSelector.vue';
+import CheckoutForm from '../../components/CheckoutForm.vue';
 import { useConfiguratorStore } from '../../stores/configurator';
 import i18n from '../../i18n';
 
@@ -32,11 +33,12 @@ describe('ConfiguratorView.vue', () => {
     expect(wrapper.text()).toContain('SaaS Konfigurátor');
   });
 
-  it('renders child selector components', () => {
+  it('renders child selector components and checkout form', () => {
     const wrapper = createWrapper();
 
     expect(wrapper.findComponent(TariffSelector).exists()).toBe(true);
     expect(wrapper.findComponent(AddonSelector).exists()).toBe(true);
+    expect(wrapper.findComponent(CheckoutForm).exists()).toBe(true);
   });
 
   it('displays the correct total price in the header badge', async () => {

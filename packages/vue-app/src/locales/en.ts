@@ -62,5 +62,19 @@ export default {
     logout: 'Sign Out',
     error: 'Invalid credentials (try test / test).',
     greeting: 'Hello, {name}'
+  },
+  checkout: {
+    title: 'Complete Order',
+    name: 'Full Name',
+    email: 'Work Email',
+    company: 'Company Name (optional)',
+    terms: 'I agree to the terms and conditions',
+    submit: 'Submit Order',
+    success: 'Order successfully submitted. Check the console!',
+    errors: {
+      required: 'This field is required',
+      email: 'Enter a valid email',
+      terms: 'You must agree to the terms'
+    }
   }
 };
