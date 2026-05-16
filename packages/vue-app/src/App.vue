@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRouter } from 'vue-router';
 import { useAuthStore } from './stores/auth';
+import { useI18n } from 'vue-i18n';
 
 const authStore = useAuthStore();
 const router = useRouter();
+const { locale } = useI18n();
 
 function handleLogout() {
   authStore.logout();
   router.push({ name: 'login' });
+}
+
+function toggleLanguage() {
+  locale.value = locale.value === 'cs' ? 'en' : 'cs';
 }
 </script>
 
@@ -45,6 +51,16 @@ function handleLogout() {
           class="w-full text-left px-3 py-2 text-sm text-slate-400 hover:text-white transition-colors flex items-center gap-2 cursor-pointer"
         >
           <span class="text-lg">🚪</span> {{ $t('auth.logout') }}
+        </button>
+      </div>
+
+      <div class="mt-auto pt-6 border-t border-slate-800 flex items-center justify-between">
+        <span class="text-sm font-medium text-slate-400">{{ $t('nav.language') }}</span>
+        <button
+          @click="toggleLanguage"
+          class="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-lg hover:text-white hover:bg-slate-700 text-xs font-bold uppercase transition-colors cursor-pointer"
+        >
+          {{ locale }}
         </button>
       </div>
     </aside>

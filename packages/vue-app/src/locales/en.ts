@@ -5,7 +5,8 @@ export default {
   nav: {
     brand: 'SaaS CONFIG',
     dashboard: 'Dashboard',
-    configurator: 'Configurator'
+    configurator: 'Configurator',
+    language: 'Language'
   },
   dashboard: {
     title: 'Overview & Statistics',

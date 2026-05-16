@@ -55,7 +55,8 @@ describe('App.vue', () => {
     const wrapper = createWrapper();
 
     expect(wrapper.text()).not.toContain('Ahoj');
-    expect(wrapper.find('aside').find('button').exists()).toBe(false);
+    // Only the language-toggle button should be present; no logout button
+    expect(wrapper.find('aside').findAll('button')).toHaveLength(1);
   });
 
   it('renders greeting with user name and logout button when authenticated', async () => {
@@ -90,5 +91,33 @@ describe('App.vue', () => {
 
     expect(authStore.user).toBeNull();
     expect(router.currentRoute.value.name).toBe('login');
+  });
+
+  it('toggles language between cs and en on click', async () => {
+    router.push('/');
+    await router.isReady();
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [createPinia(), router, i18n]
+      }
+    });
+
+    expect(wrapper.text()).toContain('Jazyk');
+    expect(wrapper.text()).toContain('Konfigurátor');
+
+    const buttons = wrapper.findAll('button');
+    const toggleBtn = buttons.find(b => b.text() === 'cs');
+
+    expect(toggleBtn).toBeDefined();
+
+    await toggleBtn!.trigger('click');
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.text()).toContain('Language');
+    expect(wrapper.text()).toContain('Configurator');
+
+    expect(toggleBtn!.text()).toBe('en');
   });
 });

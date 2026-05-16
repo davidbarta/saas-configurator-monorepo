@@ -5,7 +5,8 @@ export default {
   nav: {
     brand: 'SaaS CONFIG',
     dashboard: 'Dashboard',
-    configurator: 'Konfigurátor'
+    configurator: 'Konfigurátor',
+    language: 'Jazyk'
   },
   dashboard: {
     title: 'Přehled a statistiky',
