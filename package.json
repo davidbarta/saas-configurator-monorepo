@@ -8,6 +8,9 @@
   ],
   "scripts": {
     "dev:vue": "npm run dev --workspace=packages/vue-app",
-    "test:vue": "npm run test --workspace=packages/vue-app"
+    "test:vue": "npm run test --workspace=packages/vue-app",
+    "dev:react": "npm run dev --workspace=packages/react-app",
+    "build:react": "npm run build --workspace=packages/react-app",
+    "test:react": "npm run test --workspace=packages/react-app"
   }
 }
