@@ -48,6 +48,11 @@ export default function TarrifSelector() {
 
               <button
                 type="button"
+                aria-label={
+                  isSelected(tariff)
+                    ? `Aktivní tarif ${tariff.nameKey}`
+                    : `Zvolit tarif ${tariff.nameKey}`
+                }
                 className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors
                     ${isSelected(tariff) ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
               >
