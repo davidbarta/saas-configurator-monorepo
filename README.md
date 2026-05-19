@@ -34,9 +34,11 @@ npm install
 
 # 2. Start the original Vue application
 npm run dev:vue
+# the app will be accessible on http://localhost:3000/
 
 # 3. Start the new React application (Next.js)
 npm run dev:react
+# the app will be accessible on http://localhost:5173/
 
 # 4. Run test suites
 npm run test
