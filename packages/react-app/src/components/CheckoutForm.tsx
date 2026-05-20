@@ -1,0 +1,145 @@
+'use client';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { useConfiguratorStore } from '@/stores/configurator';
+
+const checkoutSchema = z.object({
+  name: z.string().min(1, 'Jméno je povinné'),
+  email: z.string().min(1, 'E-mail je povinný').email('Neplatný e-mail'),
+  company: z.string().optional(),
+  terms: z.literal(true, {
+    errorMap: () => ({ message: 'Musíte souhlasit s obchodními podmínkami' })
+  })
+});
+
+type CheckoutFormValues = z.infer<typeof checkoutSchema>;
+
+export default function CheckoutForm() {
+  const selectedTariff = useConfiguratorStore(state => state.selectedTariff);
+  const selectedModules = useConfiguratorStore(state => state.selectedModules);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<CheckoutFormValues>({
+    resolver: zodResolver(checkoutSchema),
+    defaultValues: {
+      name: '', // authStore not used for now
+      email: '',
+      company: ''
+    }
+  });
+
+  const onSubmit = (values: CheckoutFormValues) => {
+    // Total price calculation
+    const base = selectedTariff?.basePrice || 0;
+    const addons = selectedModules.reduce((sum, mod) => sum + mod.price, 0);
+    const totalPrice = base + addons;
+
+    const payload = {
+      customer: values,
+      order: {
+        tariff: selectedTariff,
+        addons: selectedModules,
+        totalPrice
+      }
+    };
+
+    console.log('🚀 API sent:', JSON.stringify(payload, null, 2));
+    alert('Objednávka byla úspěšně odeslána!');
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-5 bg-white p-6 rounded-xl border border-slate-200 shadow-sm"
+    >
+      <h2 className="text-lg font-semibold text-slate-800 border-b border-slate-100 pb-3">
+        Dokončení objednávky
+      </h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
+            Jméno a příjmení
+          </label>
+          <input
+            id="name"
+            type="text"
+            {...register('name')}
+            className={`w-full px-3 py-2 rounded-lg border outline-none transition-all ${
+              errors.name
+                ? 'border-red-500 ring-2 ring-red-200'
+                : 'border-slate-300 focus:ring-2 focus:ring-indigo-600 focus:border-transparent'
+            }`}
+          />
+          {errors.name && (
+            <p className="text-xs text-red-600 mt-1 font-medium">{errors.name.message}</p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+            Pracovní e-mail
+          </label>
+          <input
+            id="email"
+            type="email"
+            {...register('email')}
+            className={`w-full px-3 py-2 rounded-lg border outline-none transition-all ${
+              errors.email
+                ? 'border-red-500 ring-2 ring-red-200'
+                : 'border-slate-300 focus:ring-2 focus:ring-indigo-600 focus:border-transparent'
+            }`}
+          />
+          {errors.email && (
+            <p className="text-xs text-red-600 mt-1 font-medium">{errors.email.message}</p>
+          )}
+        </div>
+      </div>
+
+      <div>
+        <label htmlFor="companyName" className="block text-sm font-medium text-slate-700 mb-1">
+          Název firmy (volitelné)
+        </label>
+        <input
+          id="companyName"
+          type="text"
+          {...register('company')}
+          className="w-full px-3 py-2 rounded-lg border outline-none transition-all"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="terms" className="flex items-center gap-2 cursor-pointer">
+          <input
+            id="terms"
+            type="checkbox"
+            {...register('terms')}
+            className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
+          />
+          <span className="text-sm font-medium text-slate-700">
+            Souhlasím s obchodními podmínkami
+          </span>
+        </label>
+        {errors.terms && (
+          <p className="text-xs text-red-600 mt-1 font-medium">{errors.terms.message}</p>
+        )}
+      </div>
+
+      <div className="pt-4 border-t border-slate-100 flex justify-end">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg
+            hover:bg-indigo-700 transition-colors disabled:opacity-70 cursor-pointer"
+        >
+          {isSubmitting ? '...' : 'Odeslat objednávku'}
+        </button>
+      </div>
+    </form>
+  );
+}

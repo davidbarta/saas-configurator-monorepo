@@ -1,6 +1,7 @@
 'use client';
 
 import AddonSelector from '@/components/AddonSelector';
+import CheckoutForm from '@/components/CheckoutForm';
 import TarrifSelector from '@/components/TariffSelector';
 import { useConfiguratorStore } from '@/stores/configurator';
 import { useEffect } from 'react';
@@ -41,7 +42,7 @@ export default function ConfiguratorPage() {
         </section>
 
         <section className="pt-4 border-t border-slate-100 mt-8">
-          <p className="text-slate-400 italic">Tady bude Checkout formulář...</p>
+          <CheckoutForm />
         </section>
       </div>
     </div>
