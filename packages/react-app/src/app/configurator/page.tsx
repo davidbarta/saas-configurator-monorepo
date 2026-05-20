@@ -1,5 +1,6 @@
 'use client';
 
+import AddonSelector from '@/components/AddonSelector';
 import TarrifSelector from '@/components/TariffSelector';
 import { useConfiguratorStore } from '@/stores/configurator';
 import { useEffect } from 'react';
@@ -36,7 +37,7 @@ export default function ConfiguratorPage() {
 
         <section className="pt-4 border-t border-slate-100">
           <h2 className="text-lg font-semibold text-slate-800 mb-4">Doplňkové moduly</h2>
-          <p className="text-slate-400 italic">Tady bude Drag & Drop modulů...</p>
+          <AddonSelector />
         </section>
 
         <section className="pt-4 border-t border-slate-100 mt-8">

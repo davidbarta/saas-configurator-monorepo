@@ -23,9 +23,8 @@ interface ConfiguratorState {
 
   // Actions
   selectTariff: (tariff: TariffPlan) => void;
-  addModule: (mod: AddonModule) => void;
-  removeModule: (id: string) => void;
-  updateModuleOrder: (newOrder: AddonModule[]) => void;
+  updateSelectedModules: (newOrder: AddonModule[]) => void;
+  updateAvailableModules: (modules: AddonModule[]) => void;
   fetchInitialData: () => void;
 }
 
@@ -38,22 +37,9 @@ export const useConfiguratorStore = create<ConfiguratorState>(set => ({
 
   selectTariff: tariff => set({ selectedTariff: tariff }),
 
-  addModule: mod =>
-    set(state => {
-      if (state.selectedModules.some(item => item.id === mod.id)) {
-        return state;
-      }
-      return {
-        selectedModules: [...state.selectedModules, mod]
-      };
-    }),
+  updateAvailableModules: modules => set({ availableModules: modules }),
 
-  removeModule: id =>
-    set(state => ({
-      selectedModules: state.selectedModules.filter(item => item.id !== id)
-    })),
-
-  updateModuleOrder: newOrder => set({ selectedModules: newOrder }),
+  updateSelectedModules: newOrder => set({ selectedModules: newOrder }),
 
   fetchInitialData: () => {
     set({ isLoading: true });

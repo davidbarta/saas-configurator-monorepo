@@ -45,14 +45,17 @@ function getCategoryClass(category: AddonModule['category']) {
           <div
             class="p-4 bg-white rounded-xl border border-slate-200 shadow-sm cursor-grab active:cursor-grabbing flex items-center justify-between hover:border-slate-300 transition-colors"
           >
-            <div>
-              <div class="font-semibold text-slate-900">{{ $t(element.nameKey) }}</div>
-              <span
-                class="text-xs px-2 py-0.5 rounded-md border font-medium mt-1 inline-block"
-                :class="getCategoryClass(element.category)"
-              >
-                {{ $t(`addons.category.${element.category}`) }}
-              </span>
+            <div class="flex items-center gap-3">
+              <span class="text-slate-300 group-hover:text-slate-500 transition-colors">⋮⋮</span>
+              <div>
+                <div class="font-semibold text-slate-900">{{ $t(element.nameKey) }}</div>
+                <span
+                  class="text-xs px-2 py-0.5 rounded-md border font-medium mt-1 inline-block"
+                  :class="getCategoryClass(element.category)"
+                >
+                  {{ $t(`addons.category.${element.category}`) }}
+                </span>
+              </div>
             </div>
             <div class="font-extrabold text-slate-900">
               +{{ element.price }}
@@ -93,11 +96,9 @@ function getCategoryClass(category: AddonModule['category']) {
                 </span>
               </div>
             </div>
-            <div class="flex items-center gap-3">
-              <div class="font-extrabold text-indigo-600">
-                +{{ element.price }}
-                <span class="text-xs font-normal text-indigo-400">{{ $t('common.currency') }}</span>
-              </div>
+            <div class="font-extrabold text-indigo-600">
+              +{{ element.price }}
+              <span class="text-xs font-normal text-indigo-400">{{ $t('common.currency') }}</span>
             </div>
           </div>
         </template>
