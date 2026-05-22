@@ -34,7 +34,7 @@ describe('CheckoutForm.vue', () => {
     pinia = createPinia();
     authStore = useAuthStore(pinia);
     configStore = useConfiguratorStore(pinia);
-    window.alert = vi.fn();
+    window.alert = vi.fn<() => void>();
   });
 
   afterEach(() => {
@@ -108,7 +108,9 @@ describe('CheckoutForm.vue', () => {
     await wrapper.find('input[type="checkbox"]').setValue(true);
     await submitForm(wrapper);
 
-    expect(window.alert).toHaveBeenCalledWith('Objednávka byla úspěšně odeslána. Mrkni do konzole!');
+    expect(window.alert).toHaveBeenCalledWith(
+      'Objednávka byla úspěšně odeslána. Mrkni do konzole!'
+    );
   });
 
   it('renders submit button', () => {
