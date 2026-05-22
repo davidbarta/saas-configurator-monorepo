@@ -4,7 +4,7 @@ import { createPinia, setActivePinia, type Pinia } from 'pinia';
 import AddonSelector from '../AddonSelector.vue';
 import { useConfiguratorStore } from '../../stores/configurator';
 import i18n from '../../i18n';
-import { afterEach } from 'node:test';
+import { afterEach } from 'vitest';
 
 let pinia: Pinia;
 let store: ReturnType<typeof useConfiguratorStore>;

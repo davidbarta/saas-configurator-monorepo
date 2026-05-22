@@ -7,10 +7,14 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:vue": "npm run dev --workspace=packages/vue-app",
-    "test:vue": "npm run test --workspace=packages/vue-app",
-    "dev:react": "npm run dev --workspace=packages/react-app",
-    "build:react": "npm run build --workspace=packages/react-app",
-    "test:react": "npm run test --workspace=packages/react-app"
+    "dev:vue": "npm run dev -w packages/vue-app",
+    "dev:react": "npm run dev -w packages/react-app",
+    "format:check": "prettier --check \"**/*.{ts,tsx,vue,json,md}\"",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,vue,json,md}\"",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:vue": "npm run test -w packages/vue-app",
+    "test:react": "npm run test -w packages/react-app",
+    "type-check": "npm run type-check --workspaces --if-present"
   }
 }

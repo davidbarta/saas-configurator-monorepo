@@ -36,7 +36,9 @@ describe('LoginView.vue', () => {
 
   it('pre-fills email and password with demo credentials', () => {
     const wrapper = createWrapper();
-    expect((wrapper.find('#emailInput').element as HTMLInputElement).value).toBe('david@example.com');
+    expect((wrapper.find('#emailInput').element as HTMLInputElement).value).toBe(
+      'david@example.com'
+    );
     expect((wrapper.find('#passwordInput').element as HTMLInputElement).value).toBe('test');
   });
 
