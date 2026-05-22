@@ -11,7 +11,7 @@ The repository is structured as a monorepo (using npm workspaces) to allow for a
 - **Core:** TypeScript, Tailwind CSS, Vite / Next.js
 - **Phase 1 (Vue):** Vue 3 (Composition API), Pinia, Vue Test Utils, vuedraggable
 - **Phase 2 (React):** React 18, Next.js (App Router), Zustand, React Testing Library, @hello-pangea/dnd
-- **Testing:** Vitest (including TDD practices and accessibility testing - a11y)
+- **Infrastructure & CI/CD:** GitHub Actions, Prettier, ESLint / Oxlint, Vercel
 
 ## 🧠 What to Look For (Architectural Decisions)
 
@@ -26,22 +26,34 @@ The repository is structured as a monorepo (using npm workspaces) to allow for a
 
 4.  **Drag & Drop Implementation:** A practical demonstration of handling complex user interactions. While Vue handles this cleanly via `v-model` bindings, React requires manual, immutable array manipulation and state updates (implemented using `@hello-pangea/dnd`).
 
-## 🚀 How to Run the Project
+## 🛡️ CI/CD & Code Quality
+
+The repository implements a production-grade automated workflow to guarantee code quality and stability:
+
+- **Branch Protection:** The `main` branch is fully protected. Direct pushes are disabled, forcing a strict Pull Request workflow.
+- **GitHub Actions Pipeline:** Every Pull Request automatically triggers four parallel verification jobs:
+  - **Code Style:** Prettier check to enforce consistent formatting.
+  - **Linting:** ESLint and Oxlint executed across workspaces to prevent anti-patterns.
+  - **Type Safety:** Strict TypeScript compilation check (`tsc --noEmit`).
+  - **Automated Tests:** Running the entire Vitest suite.
+- **Automated Previews:** Integrated with **Vercel** to instantly generate live preview deployments for every open Pull Request, facilitating rapid visual regression checks.
+
+## 🚀 Live Demo & How to Run
+
+### 🌐 Live Deployments (Vercel)
+
+- **React App (Next.js):** [david-saas-configurator-monorepo-vu.vercel.app](https://david-saas-configurator-monorepo-vu.vercel.app)
+- **Vue App (Vite):** [david-saas-configurator-monorepo-re.vercel.app](https://david-saas-configurator-monorepo-re.vercel.app)
+
+---
+
+### 💻 Local Development
 
 ```bash
-# 1. Install dependencies in the root (bootstraps all workspaces)
+# 1. Install dependencies in the root (bootstraps all npm workspaces)
 npm install
 
-# 2. Start the original Vue application
-npm run dev:vue
-# the app will be accessible on http://localhost:3000/
-
-# 3. Start the new React application (Next.js)
-npm run dev:react
-# the app will be accessible on http://localhost:5173/
-
-# 4. Run test suites
-npm run test
-# or run specifically for React: npm run test:react
-# or specifically for Vue: npm run test:vue
+# 2. Run Applications Locally
+npm run dev:vue       # Running on http://localhost:5173/
+npm run dev:react     # Running on http://localhost:3000/
 ```
