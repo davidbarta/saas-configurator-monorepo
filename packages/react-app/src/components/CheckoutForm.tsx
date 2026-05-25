@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useConfiguratorStore } from '@/stores/configurator';
+import { useState } from 'react';
 
 const checkoutSchema = z.object({
   name: z.string().min(1, 'Jméno je povinné'),
@@ -20,10 +21,14 @@ export default function CheckoutForm() {
   const selectedTariff = useConfiguratorStore(state => state.selectedTariff);
   const selectedModules = useConfiguratorStore(state => state.selectedModules);
 
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
+    reset
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
@@ -33,23 +38,43 @@ export default function CheckoutForm() {
     }
   });
 
-  const onSubmit = (values: CheckoutFormValues) => {
+  const onSubmit = async (values: CheckoutFormValues) => {
+    setSubmitError(null);
+    setSubmitSuccess(false);
+
     // Total price calculation
     const base = selectedTariff?.basePrice || 0;
     const addons = selectedModules.reduce((sum, mod) => sum + mod.price, 0);
     const totalPrice = base + addons;
 
     const payload = {
-      customer: values,
-      order: {
-        tariff: selectedTariff,
-        addons: selectedModules,
-        totalPrice
-      }
+      totalPrice,
+      selectedTariff,
+      selectedModules,
+      customer: values
     };
 
-    console.log('🚀 API sent:', JSON.stringify(payload, null, 2));
-    alert('Objednávka byla úspěšně odeslána!');
+    try {
+      const response = await fetch('http://localhost:4000/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong when saving the order.');
+      }
+
+      setSubmitSuccess(true);
+      reset();
+    } catch (error: any) {
+      console.error('Order Submit Error:', error);
+      setSubmitError(error.message || 'Unable to connect to server.');
+    }
   };
 
   return (
@@ -60,6 +85,18 @@ export default function CheckoutForm() {
       <h2 className="text-lg font-semibold text-slate-800 border-b border-slate-100 pb-3">
         Dokončení objednávky
       </h2>
+
+      {submitSuccess && (
+        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm rounded-lg font-medium">
+          🎉 Order successfully sent and saved to SQLite database!
+        </div>
+      )}
+
+      {submitError && (
+        <div className="p-4 bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg font-medium">
+          ❌ Error: {submitError}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
@@ -137,7 +174,7 @@ export default function CheckoutForm() {
           className="px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg
             hover:bg-indigo-700 transition-colors disabled:opacity-70 cursor-pointer"
         >
-          {isSubmitting ? '...' : 'Odeslat objednávku'}
+          {isSubmitting ? 'Odesílám...' : 'Odeslat objednávku'}
         </button>
       </div>
     </form>

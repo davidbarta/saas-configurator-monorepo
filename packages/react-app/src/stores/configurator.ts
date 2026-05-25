@@ -25,7 +25,7 @@ interface ConfiguratorState {
   selectTariff: (tariff: TariffPlan) => void;
   updateSelectedModules: (newOrder: AddonModule[]) => void;
   updateAvailableModules: (modules: AddonModule[]) => void;
-  fetchInitialData: () => void;
+  fetchInitialData: (data?: { tariffs: TariffPlan[]; modules: AddonModule[] }) => void;
 }
 
 export const useConfiguratorStore = create<ConfiguratorState>(set => ({
@@ -41,7 +41,17 @@ export const useConfiguratorStore = create<ConfiguratorState>(set => ({
 
   updateSelectedModules: newOrder => set({ selectedModules: newOrder }),
 
-  fetchInitialData: () => {
+  fetchInitialData: (data) => {
+    if (data) {
+      set({
+        availableTariffs: data.tariffs,
+        availableModules: data.modules,
+        selectedTariff: data.tariffs[0] || null,
+        isLoading: false
+      });
+      return;
+    }
+    
     set({ isLoading: true });
 
     const mockTariffs: TariffPlan[] = [
