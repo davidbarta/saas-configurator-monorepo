@@ -41,7 +41,7 @@ export const useConfiguratorStore = create<ConfiguratorState>(set => ({
 
   updateSelectedModules: newOrder => set({ selectedModules: newOrder }),
 
-  fetchInitialData: (data) => {
+  fetchInitialData: data => {
     if (data) {
       set({
         availableTariffs: data.tariffs,
@@ -51,7 +51,7 @@ export const useConfiguratorStore = create<ConfiguratorState>(set => ({
       });
       return;
     }
-    
+
     set({ isLoading: true });
 
     const mockTariffs: TariffPlan[] = [

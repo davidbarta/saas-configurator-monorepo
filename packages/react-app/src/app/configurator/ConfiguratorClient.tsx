@@ -3,11 +3,14 @@
 import AddonSelector from '@/components/AddonSelector';
 import CheckoutForm from '@/components/CheckoutForm';
 import TarrifSelector from '@/components/TariffSelector';
-import { useConfiguratorStore } from '@/stores/configurator';
+import { AddonModule, TariffPlan, useConfiguratorStore } from '@/stores/configurator';
 import { useEffect } from 'react';
 
 interface ConfiguratorClientProps {
-  initialData: any;
+  initialData: {
+    tariffs: TariffPlan[];
+    modules: AddonModule[];
+  };
 }
 
 export default function ConfiguratorClient({ initialData }: ConfiguratorClientProps) {

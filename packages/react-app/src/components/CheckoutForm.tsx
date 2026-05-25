@@ -71,9 +71,14 @@ export default function CheckoutForm() {
 
       setSubmitSuccess(true);
       reset();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Order Submit Error:', error);
-      setSubmitError(error.message || 'Unable to connect to server.');
+
+      if (error instanceof Error) {
+        setSubmitError(error.message || 'Unable to connect to server.');
+      } else {
+        setSubmitError('Unable to connect to server.');
+      }
     }
   };
 

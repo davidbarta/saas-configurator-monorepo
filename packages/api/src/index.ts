@@ -2,6 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import { initDatabase, db } from './db/init.js';
 
+interface DbOrder {
+  id: number;
+  created_at: string;
+  total_price: number;
+  items: string;
+}
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -53,7 +60,7 @@ app.post('/api/orders', (req, res) => {
 
 app.get('/api/orders', (req, res) => {
   try {
-    const orders = db.prepare('SELECT * FROM orders ORDER BY created_at DESC').all() as any[];
+    const orders = db.prepare('SELECT * FROM orders ORDER BY created_at DESC').all() as DbOrder[];
 
     const parsedOrders = orders.map(order => ({
       id: order.id,
