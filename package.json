@@ -9,6 +9,7 @@
   "scripts": {
     "dev:vue": "npm run dev -w packages/vue-app",
     "dev:react": "npm run dev -w packages/react-app",
+    "dev:api": "npm run dev -w packages/api",
     "format:check": "prettier --check \"**/*.{ts,tsx,vue,json,md}\"",
     "format:fix": "prettier --write \"**/*.{ts,tsx,vue,json,md}\"",
     "lint": "npm run lint --workspaces --if-present",
