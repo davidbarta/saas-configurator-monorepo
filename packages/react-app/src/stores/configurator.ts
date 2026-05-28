@@ -43,10 +43,17 @@ export const useConfiguratorStore = create<ConfiguratorState>(set => ({
 
   fetchInitialData: data => {
     if (data) {
+      const currentSelectedTariff = useConfiguratorStore.getState().selectedTariff || null;
+      const currentSelectedModules = useConfiguratorStore.getState().selectedModules || [];
+
+      const filteredAvailable = data.modules.filter(
+        mod => !currentSelectedModules.some(currentModule => currentModule.id === mod.id)
+      );
+
       set({
         availableTariffs: data.tariffs,
-        availableModules: data.modules,
-        selectedTariff: data.tariffs[0] || null,
+        availableModules: filteredAvailable,
+        selectedTariff: currentSelectedTariff || data.tariffs[0] || null,
         isLoading: false
       });
       return;
