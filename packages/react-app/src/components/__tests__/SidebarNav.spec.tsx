@@ -4,7 +4,11 @@ import SidebarNav from '../SidebarNav';
 import { render, screen } from '@testing-library/react';
 
 vi.mock('next/navigation', () => ({
-  usePathname: vi.fn()
+  usePathname: vi.fn(),
+  useRouter: vi.fn(() => ({
+    push: vi.fn(),
+    refresh: vi.fn()
+  }))
 }));
 
 describe('SidebarNav', () => {

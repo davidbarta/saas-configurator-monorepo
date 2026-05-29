@@ -11,6 +11,18 @@ export const db = new Database(dbPath);
 export function initDatabase() {
   db.prepare(
     `
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      name TEXT NOT NULL,
+      created_at TEXT DEFAULT CURRENT_TIMESTAMP
+    )
+  `
+  ).run();
+
+  db.prepare(
+    `
     CREATE TABLE IF NOT EXISTS tariffs (
       id TEXT PRIMARY KEY,
       nameKey TEXT NOT NULL,
@@ -35,9 +47,11 @@ export function initDatabase() {
     `
     CREATE TABLE IF NOT EXISTS orders (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NULL,
       created_at TEXT DEFAULT CURRENT_TIMESTAMP,
       total_price INTEGER NOT NULL,
-      items JSON NOT NULL
+      items JSON NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `
   ).run();
