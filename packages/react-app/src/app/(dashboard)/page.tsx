@@ -1,7 +1,15 @@
+import { cookies } from 'next/headers';
+
 async function fetchOrders() {
   try {
+    const cookiesStore = await cookies();
+    const token = cookiesStore.get('token')?.value;
+
     const res = await fetch('http://localhost:4000/api/orders', {
-      cache: 'no-store'
+      cache: 'no-store',
+      headers: {
+        Cookie: `token=${token || ''}`
+      }
     });
 
     if (!res.ok) {

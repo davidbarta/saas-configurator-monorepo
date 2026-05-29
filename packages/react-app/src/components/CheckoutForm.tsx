@@ -4,7 +4,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useConfiguratorStore } from '@/stores/configurator';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAuthStore } from '@/stores/auth';
 
 const checkoutSchema = z.object({
   name: z.string().min(1, 'Jméno je povinné'),
@@ -20,6 +21,8 @@ type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 export default function CheckoutForm() {
   const selectedTariff = useConfiguratorStore(state => state.selectedTariff);
   const selectedModules = useConfiguratorStore(state => state.selectedModules);
+
+  const user = useAuthStore(state => state.user);
 
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
@@ -38,6 +41,16 @@ export default function CheckoutForm() {
     }
   });
 
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user.name,
+        email: user.email,
+        company: ''
+      });
+    }
+  }, [user, reset]);
+
   const onSubmit = async (values: CheckoutFormValues) => {
     setSubmitError(null);
     setSubmitSuccess(false);
@@ -51,6 +64,7 @@ export default function CheckoutForm() {
       totalPrice,
       selectedTariff,
       selectedModules,
+      userId: user?.id || null,
       customer: values
     };
 
@@ -60,6 +74,7 @@ export default function CheckoutForm() {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify(payload)
       });
 
@@ -70,7 +85,11 @@ export default function CheckoutForm() {
       }
 
       setSubmitSuccess(true);
-      reset();
+      reset({
+        name: user?.name || '',
+        email: user?.email || '',
+        company: ''
+      });
     } catch (error: unknown) {
       console.error('Order Submit Error:', error);
 
