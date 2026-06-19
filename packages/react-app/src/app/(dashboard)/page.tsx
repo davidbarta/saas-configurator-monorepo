@@ -41,12 +41,12 @@ interface Order {
   };
 }
 
-function getTranslation(dictionary: any, key: string): string {
+function getTranslation(dictionary: unknown, key: string): string {
   const keys = key.split('.');
   let current = dictionary;
   for (const k of keys) {
     if (current && typeof current === 'object' && k in current) {
-      current = current[k];
+      current = (current as Record<string, unknown>)[k];
     } else {
       return key;
     }
