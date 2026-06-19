@@ -102,6 +102,7 @@ export default {
     submitting: 'Submitting...',
     success: '🎉 Order successfully submitted!',
     errors: {
+      error: '❌ Error',
       required: 'This field is required',
       email: 'Enter a valid email',
       terms: 'You must agree to the terms'
