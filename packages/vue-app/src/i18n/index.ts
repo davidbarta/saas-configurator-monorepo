@@ -1,6 +1,5 @@
 import { createI18n } from 'vue-i18n';
-import cs from '@/locales/cs';
-import en from '@/locales/en';
+import { cs, en } from '@saas/locales';
 
 type MessageSchema = typeof cs;
 

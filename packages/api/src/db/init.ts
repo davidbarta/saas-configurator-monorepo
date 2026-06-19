@@ -64,21 +64,16 @@ export function initDatabase() {
     const insertTariff = db.prepare(
       'INSERT INTO tariffs (id, nameKey, descriptionKey, basePrice) VALUES (?, ?, ?, ?)'
     );
-    insertTariff.run('starter', 'Starter', 'Ideální pro začínající projekty a jednotlivce.', 29);
-    insertTariff.run(
-      'professional',
-      'Professional',
-      'Pro rostoucí týmy vyžadující pokročilé funkce.',
-      99
-    );
-    insertTariff.run('enterprise', 'Enterprise', 'Maximální výkon a neomezené zdroje.', 249);
+    insertTariff.run('starter', 'tariffs.starter.name', 'tariffs.starter.desc', 29);
+    insertTariff.run('professional', 'tariffs.professional.name', 'tariffs.professional.desc', 99);
+    insertTariff.run('enterprise', 'tariffs.enterprise.name', 'tariffs.enterprise.desc', 249);
 
     const insertModule = db.prepare(
       'INSERT INTO modules (id, nameKey, price, category) VALUES (?, ?, ?, ?)'
     );
-    insertModule.run('mod-db', 'Extra databáze (+10GB)', 15, 'resource');
-    insertModule.run('mod-analytics', 'Pokročilá analytika', 25, 'feature');
-    insertModule.run('mod-sla', 'SLA Podpora 24/7', 50, 'support');
+    insertModule.run('mod-db', 'modules.db', 15, 'resource');
+    insertModule.run('mod-analytics', 'modules.analytics', 25, 'feature');
+    insertModule.run('mod-sla', 'modules.sla', 50, 'support');
 
     console.log('✅ Seeding done.');
   }

@@ -6,19 +6,24 @@ import * as z from 'zod';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/auth';
 import Link from 'next/link';
-
-const loginSchema = z.object({
-  email: z.string().min(1, 'E-mail je povinný').email('Neplatný formát e-mailu'),
-  password: z.string().min(6, 'Heslo musí mít alespoň 6 znaků')
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { useLocaleStore } from '@/stores/locale';
+import { Language } from '@saas/locales';
 
 export default function LoginPage() {
   const router = useRouter();
   const login = useAuthStore(state => state.login);
   const storeError = useAuthStore(state => state.error);
   const isLoading = useAuthStore(state => state.isLoading);
+
+  const t = useLocaleStore(state => state.t);
+  const lang = useLocaleStore(state => state.lang);
+  const setLang = useLocaleStore(state => state.setLang);
+
+  type LoginFormValues = z.infer<typeof loginSchema>;
+  const loginSchema = z.object({
+    email: z.string().min(1, t('auth.emailRequired')).email(t('auth.emailInvalid')),
+    password: z.string().min(6, t('auth.passwordTooShort'))
+  });
 
   const {
     register,
@@ -32,6 +37,12 @@ export default function LoginPage() {
     }
   });
 
+  const handleLanguageChange = (newLang: Language) => {
+    setLang(newLang);
+    document.cookie = `NEXT_LOCALE=${newLang}; path=/; max-age=31536000; SameSite=Lax`;
+    router.refresh();
+  };
+
   const onSubmit = async (values: LoginFormValues) => {
     const success = await login(values.email, values.password);
 
@@ -43,10 +54,30 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-slate-100">
+      <div className="absolute top-4 right-4 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm flex gap-2 text-xs font-bold">
+        <button
+          onClick={() => handleLanguageChange('cs')}
+          className={`px-2 py-1 rounded transition-colors cursor-pointer ${
+            lang === 'cs' ? 'bg-indigo-600 text-white' : 'text-slate-500 hover:bg-slate-100'
+          }`}
+        >
+          CZ
+        </button>
+        <button
+          onClick={() => handleLanguageChange('en')}
+          className={`px-2 py-1 rounded transition-colors cursor-pointer ${
+            lang === 'en' ? 'bg-indigo-600 text-white' : 'text-slate-500 hover:bg-slate-100'
+          }`}
+        >
+          EN
+        </button>
+      </div>
       <div className="w-full max-w-md bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Vítejte zpět</h1>
-          <p className="text-sm text-slate-500">Přihlaste se ke svému účtu</p>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+            {t('auth.welcomeBack')}
+          </h1>
+          <p className="text-sm text-slate-500">{t('auth.loginToYourAccount')}</p>
         </div>
 
         {storeError && (
@@ -58,7 +89,7 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
-              E-mailová adresa
+              {t('auth.email')}
             </label>
             <input
               id="email"
@@ -77,7 +108,7 @@ export default function LoginPage() {
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
-              Heslo
+              {t('auth.password')}
             </label>
             <input
               id="password"
@@ -100,14 +131,14 @@ export default function LoginPage() {
             className="w-full py-2.5 bg-indigo-600 text-white font-semibold rounded-lg
               hover:bg-indigo-700 transition-colors disabled:opacity-70 cursor-pointer text-sm"
           >
-            {isLoading ? 'Přihlašuji...' : 'Přihlásit se'}
+            {isLoading ? t('auth.loggingIn') : t('auth.title')}
           </button>
         </form>
 
         <div className="text-center text-xs text-slate-500 border-t border-slate-100 pt-4">
-          Nemáte ještě účet?{' '}
+          {t('auth.accountNotExisting') + ' '}
           <Link href="/register" className="text-indigo-600 font-semibold hover:underline">
-            Zaregistrujte se
+            {t('auth.register')}
           </Link>
         </div>
       </div>
