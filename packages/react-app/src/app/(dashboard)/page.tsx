@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { translations, Language, type TranslationKey } from '@saas/locales';
+import { translations, Language } from '@saas/locales';
 
 async function fetchOrders() {
   try {
@@ -95,7 +95,9 @@ export default async function Home() {
                     </td>
                     <td className="p-4">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
-                        {order.items.tariff?.nameKey || t.dashboard.table.unknown}
+                        {order.items.tariff?.nameKey
+                          ? getTranslation(t, order.items.tariff.nameKey)
+                          : t.dashboard.table.unknown}
                       </span>
                     </td>
                     <td className="p-4">
