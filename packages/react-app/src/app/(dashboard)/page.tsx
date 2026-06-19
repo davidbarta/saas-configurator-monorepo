@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { translations, Language } from '@saas/locales';
+import { translations, Language, type TranslationKey } from '@saas/locales';
 
 async function fetchOrders() {
   try {
@@ -39,6 +39,19 @@ interface Order {
       price: number;
     }>;
   };
+}
+
+function getTranslation(dictionary: any, key: string): string {
+  const keys = key.split('.');
+  let current = dictionary;
+  for (const k of keys) {
+    if (current && typeof current === 'object' && k in current) {
+      current = current[k];
+    } else {
+      return key;
+    }
+  }
+  return typeof current === 'string' ? current : key;
 }
 
 export default async function Home() {
@@ -93,7 +106,7 @@ export default async function Home() {
                               key={mod.id}
                               className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-slate-100 text-slate-600 border border-slate-200"
                             >
-                              {t[mod.nameKey.split('.')[0]][mod.nameKey.split('.')[1]]}
+                              {getTranslation(t, mod.nameKey)}
                             </span>
                           ))}
                         </div>
