@@ -17,7 +17,7 @@ describe('SidebarNav', () => {
 
     render(<SidebarNav />);
 
-    const configuratorLink = screen.getByRole('link', { name: 'Configurator' });
+    const configuratorLink = screen.getByRole('link', { name: 'Konfigurátor' });
     const dashboardLink = screen.getByRole('link', { name: 'Dashboard' });
 
     expect(configuratorLink).toHaveClass('text-white!', 'bg-indigo-600');

@@ -16,6 +16,7 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "@saas/locales": "^1.0.0",
     "@vee-validate/zod": "^4.15.1",
     "pinia": "^3.0.4",
     "vee-validate": "^4.15.1",

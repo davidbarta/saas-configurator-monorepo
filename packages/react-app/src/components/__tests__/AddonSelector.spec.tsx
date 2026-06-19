@@ -53,6 +53,6 @@ describe('AddonSelector', () => {
     render(<AddonSelector />);
 
     expect(screen.getByText('Module A')).toBeInTheDocument();
-    expect(screen.getByText('Zatím nemáš vybrané žádné moduly')).toBeInTheDocument();
+    expect(screen.getByText('Zatím jsi nepřetáhl žádný modul.')).toBeInTheDocument();
   });
 });

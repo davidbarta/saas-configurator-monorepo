@@ -6,19 +6,10 @@ import * as z from 'zod';
 import { useConfiguratorStore } from '@/stores/configurator';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/auth';
-
-const checkoutSchema = z.object({
-  name: z.string().min(1, 'Jméno je povinné'),
-  email: z.string().min(1, 'E-mail je povinný').email('Neplatný e-mail'),
-  company: z.string().optional(),
-  terms: z.literal(true, {
-    errorMap: () => ({ message: 'Musíte souhlasit s obchodními podmínkami' })
-  })
-});
-
-type CheckoutFormValues = z.infer<typeof checkoutSchema>;
+import { useLocaleStore } from '@/stores/locale';
 
 export default function CheckoutForm() {
+  const t = useLocaleStore(state => state.t);
   const selectedTariff = useConfiguratorStore(state => state.selectedTariff);
   const selectedModules = useConfiguratorStore(state => state.selectedModules);
 
@@ -26,6 +17,16 @@ export default function CheckoutForm() {
 
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+
+  type CheckoutFormValues = z.infer<typeof checkoutSchema>;
+  const checkoutSchema = z.object({
+    name: z.string().min(1, t('auth.nameRequired')),
+    email: z.string().min(1, t('auth.emailRequired')).email(t('auth.emailInvalid')),
+    company: z.string().optional(),
+    terms: z.literal(true, {
+      errorMap: () => ({ message: t('checkout.errors.terms') })
+    })
+  });
 
   const {
     register,
@@ -35,7 +36,7 @@ export default function CheckoutForm() {
   } = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
-      name: '', // authStore not used for now
+      name: '',
       email: '',
       company: ''
     }
@@ -107,25 +108,25 @@ export default function CheckoutForm() {
       className="space-y-5 bg-white p-6 rounded-xl border border-slate-200 shadow-sm"
     >
       <h2 className="text-lg font-semibold text-slate-800 border-b border-slate-100 pb-3">
-        Dokončení objednávky
+        {t('checkout.title')}
       </h2>
 
       {submitSuccess && (
         <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm rounded-lg font-medium">
-          🎉 Order successfully sent and saved to SQLite database!
+          {t('checkout.success')}
         </div>
       )}
 
       {submitError && (
         <div className="p-4 bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg font-medium">
-          ❌ Error: {submitError}
+          {t('checkout.errors.error')}: {submitError}
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
-            Jméno a příjmení
+            {t('checkout.name')}
           </label>
           <input
             id="name"
@@ -144,7 +145,7 @@ export default function CheckoutForm() {
 
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
-            Pracovní e-mail
+            {t('checkout.email')}
           </label>
           <input
             id="email"
@@ -164,7 +165,7 @@ export default function CheckoutForm() {
 
       <div>
         <label htmlFor="companyName" className="block text-sm font-medium text-slate-700 mb-1">
-          Název firmy (volitelné)
+          {t('checkout.company')}
         </label>
         <input
           id="companyName"
@@ -182,9 +183,7 @@ export default function CheckoutForm() {
             {...register('terms')}
             className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
           />
-          <span className="text-sm font-medium text-slate-700">
-            Souhlasím s obchodními podmínkami
-          </span>
+          <span className="text-sm font-medium text-slate-700">{t('checkout.terms')}</span>
         </label>
         {errors.terms && (
           <p className="text-xs text-red-600 mt-1 font-medium">{errors.terms.message}</p>
@@ -198,7 +197,7 @@ export default function CheckoutForm() {
           className="px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg
             hover:bg-indigo-700 transition-colors disabled:opacity-70 cursor-pointer"
         >
-          {isSubmitting ? 'Odesílám...' : 'Odeslat objednávku'}
+          {isSubmitting ? t('checkout.submitting') : t('checkout.submit')}
         </button>
       </div>
     </form>

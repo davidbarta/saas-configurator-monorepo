@@ -1,6 +1,7 @@
 'use client';
 
 import { useConfiguratorStore, type AddonModule } from '@/stores/configurator';
+import { useLocaleStore } from '@/stores/locale';
 import {
   DragDropContext,
   Droppable,
@@ -8,8 +9,10 @@ import {
   DropResult,
   DraggableLocation
 } from '@hello-pangea/dnd';
+import { type TranslationKey } from '@saas/locales';
 
 export default function AddonSelector() {
+  const t = useLocaleStore(state => state.t);
   const availableModules = useConfiguratorStore(state => state.availableModules);
   const selectedModules = useConfiguratorStore(state => state.selectedModules);
   const updateAvailableModules = useConfiguratorStore(state => state.updateAvailableModules);
@@ -86,7 +89,7 @@ export default function AddonSelector() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="flex flex-col bg-slate-50 p-5 rounded-2xl border border-slate-200">
           <h3 className="font-bold text-sm text-slate-500 uppercase tracking-wider mb-4">
-            Dostupné moduly
+            {t('addons.available')}
           </h3>
 
           <Droppable droppableId="available">
@@ -111,7 +114,9 @@ export default function AddonSelector() {
                             ⋮⋮
                           </span>
                           <div>
-                            <div className="font-semibold text-slate-900">{module.nameKey}</div>
+                            <div className="font-semibold text-slate-900">
+                              {t(module.nameKey as TranslationKey)}
+                            </div>
                             <span
                               className={`text-xs px-2 py-0.5 rounded-md border font-medium mt-1 inline-block 
                               ${getCategoryClass(module.category)}`}
@@ -122,7 +127,9 @@ export default function AddonSelector() {
                         </div>
                         <div className="font-extrabold text-slate-900">
                           +{module.price}{' '}
-                          <span className="text-xs font-normal text-slate-500 ml-1">USD</span>
+                          <span className="text-xs font-normal text-slate-500 ml-1">
+                            {t('common.currency')}
+                          </span>
                         </div>
                       </div>
                     )}
@@ -136,7 +143,7 @@ export default function AddonSelector() {
 
         <div className="flex flex-col bg-indigo-50/50 p-5 rounded-2xl border-2 border-dashed border-indigo-200">
           <h3 className="font-bold text-sm text-indigo-900 uppercase tracking-wider mb-4">
-            Vybrané moduly
+            {t('addons.selected')}
           </h3>
 
           <Droppable droppableId="selected">
@@ -151,7 +158,7 @@ export default function AddonSelector() {
                     className="absolute inset-0 flex items-center justify-center text-sm text-slate-400 italic 
                   pointer-events-none"
                   >
-                    Zatím nemáš vybrané žádné moduly
+                    {t('addons.empty')}
                   </div>
                 )}
                 {selectedModules.map((selectedModule, index) => (
@@ -170,7 +177,7 @@ export default function AddonSelector() {
                           </span>
                           <div>
                             <div className="font-semibold text-slate-900">
-                              {selectedModule.nameKey}
+                              {t(selectedModule.nameKey as TranslationKey)}
                             </div>
                             <span
                               className={`text-xs px-2 py-0.5 rounded-md border font-medium mt-1 inline-block 
@@ -182,7 +189,9 @@ export default function AddonSelector() {
                         </div>
                         <div className="font-extrabold text-slate-900">
                           +{selectedModule.price}{' '}
-                          <span className="text-xs font-normal text-slate-500 ml-1">USD</span>
+                          <span className="text-xs font-normal text-slate-500 ml-1">
+                            {t('common.currency')}
+                          </span>
                         </div>
                       </div>
                     )}

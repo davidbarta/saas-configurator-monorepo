@@ -6,11 +6,22 @@ export default {
     brand: 'SaaS CONFIG',
     dashboard: 'Dashboard',
     configurator: 'Configurator',
-    language: 'Language'
+    language: 'Language',
+    loggedInAs: 'Logged in as'
   },
   dashboard: {
     title: 'Overview & Statistics',
-    noTariff: 'No tariff selected yet. Go to the configurator.'
+    noTariff: 'No tariff selected yet.',
+    noTariffDesc: 'Save data in the configurator to see it here.',
+    table: {
+      id: 'Order ID',
+      dateCreated: 'Date created',
+      chosenTariff: 'Chosen Tariff',
+      activeModules: 'Active Modules',
+      price: 'Total price',
+      unknown: 'Unknown',
+      noModules: 'No Addon Modules'
+    }
   },
   configurator: {
     title: 'SaaS Configurator',
@@ -24,7 +35,9 @@ export default {
   selector: {
     title: 'Choose your base tariff',
     selectBtn: 'Select plan',
-    selectedBadge: 'Active'
+    selectedBadge: 'Active',
+    selectedTariff: 'Active tariff {tariff}',
+    chooseTariff: 'Choose tariff {tariff}'
   },
   tariffs: {
     starter: {
@@ -57,12 +70,27 @@ export default {
   },
   auth: {
     title: 'Sign In',
+    name: 'Name',
+    nameRequired: 'Name is required',
     email: 'Email',
     password: 'Password',
+    passwordTooShort: 'Password has to have at least 6 characters',
     submit: 'Enter App',
     logout: 'Sign Out',
     error: 'Invalid credentials (try test / test).',
-    greeting: 'Hello, {name}'
+    greeting: 'Hello, {name}',
+    emailRequired: 'Email is required',
+    emailInvalid: 'Invalid email format',
+    welcomeBack: 'Welcome back',
+    loginToYourAccount: 'Login to your account',
+    login: 'Login',
+    loggingIn: 'Logging in...',
+    accountExisting: 'Already have an account?',
+    accountNotExisting: `You don't have an account?`,
+    register: 'Register',
+    registering: 'Creating account...',
+    createAccount: 'Create account',
+    createAccountDescription: 'Fill in you credentials in order to register to the application'
   },
   checkout: {
     title: 'Complete Order',
@@ -71,7 +99,8 @@ export default {
     company: 'Company Name (optional)',
     terms: 'I agree to the terms and conditions',
     submit: 'Submit Order',
-    success: 'Order successfully submitted. Check the console!',
+    submitting: 'Submitting...',
+    success: '🎉 Order successfully submitted!',
     errors: {
       required: 'This field is required',
       email: 'Enter a valid email',

@@ -6,11 +6,22 @@ export default {
     brand: 'SaaS CONFIG',
     dashboard: 'Dashboard',
     configurator: 'Konfigurátor',
-    language: 'Jazyk'
+    language: 'Jazyk',
+    loggedInAs: 'Přihlášen jako'
   },
   dashboard: {
     title: 'Přehled a statistiky',
-    noTariff: 'Zatím nemáš vybraný žádný tarif. Přejdi do konfigurátoru.'
+    noTariff: 'Zatím nemáš vybraný žádný tarif.',
+    noTariffDesc: 'Ulož data v konfigurátoru a uvidíš je tady.',
+    table: {
+      id: 'ID Objednávky',
+      dateCreated: 'Datum vytvoření',
+      chosenTariff: 'Vybraný Tarif',
+      activeModules: 'Aktivní Moduly',
+      price: 'Celková cena',
+      unknown: 'Neznámý',
+      noModules: 'Žádné doplňkové moduly'
+    }
   },
   configurator: {
     title: 'SaaS Konfigurátor',
@@ -24,7 +35,9 @@ export default {
   selector: {
     title: 'Zvol si výchozí tarif',
     selectBtn: 'Zvolit tarif',
-    selectedBadge: 'Aktivní'
+    selectedBadge: 'Aktivní',
+    selectedTariff: 'Aktivní tarif {tariff}',
+    chooseTariff: 'Zvolit tarif {tariff}'
   },
   tariffs: {
     starter: {
@@ -57,12 +70,27 @@ export default {
   },
   auth: {
     title: 'Přihlášení',
+    name: 'Jméno',
+    nameRequired: 'Jméno je povinné',
     email: 'E-mail',
     password: 'Heslo',
+    passwordTooShort: 'Heslo musí mít alespoň 6 znaků',
     submit: 'Vstoupit do aplikace',
     logout: 'Odhlásit se',
     error: 'Neplatné přihlašovací údaje (zkus test / test).',
-    greeting: 'Ahoj, {name}'
+    greeting: 'Ahoj, {name}',
+    emailRequired: 'Email je povinný',
+    emailInvalid: 'Neplatný formát e-mailu',
+    welcomeBack: 'Vítejte zpět',
+    loginToYourAccount: 'Přihlaste se ke svému účtu',
+    login: 'Přihlásit se',
+    loggingIn: 'Přihlašuji...',
+    accountExisting: 'Již máte účet?',
+    accountNotExisting: 'Nemáte ještě účet?',
+    register: 'Zaregistrovat se',
+    registering: 'Vytvářím účet...',
+    createAccount: 'Vytvořit účet',
+    createAccountDescription: 'Zadejte své údaje pro registraci do SaaS aplikace'
   },
   checkout: {
     title: 'Dokončení objednávky',
@@ -71,8 +99,10 @@ export default {
     company: 'Název firmy (volitelné)',
     terms: 'Souhlasím s obchodními podmínkami',
     submit: 'Odeslat objednávku',
-    success: 'Objednávka byla úspěšně odeslána. Mrkni do konzole!',
+    submitting: 'Odesílám...',
+    success: '🎉 Objednávka byla úspěšně odeslána!',
     errors: {
+      error: '❌ Error',
       required: 'Toto pole je povinné',
       email: 'Zadejte platný e-mail',
       terms: 'Musíte souhlasit s podmínkami'

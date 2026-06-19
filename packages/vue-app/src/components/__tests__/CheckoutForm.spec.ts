@@ -108,9 +108,7 @@ describe('CheckoutForm.vue', () => {
     await wrapper.find('input[type="checkbox"]').setValue(true);
     await submitForm(wrapper);
 
-    expect(window.alert).toHaveBeenCalledWith(
-      'Objednávka byla úspěšně odeslána. Mrkni do konzole!'
-    );
+    expect(window.alert).toHaveBeenCalledWith('🎉 Objednávka byla úspěšně odeslána!');
   });
 
   it('renders submit button', () => {
